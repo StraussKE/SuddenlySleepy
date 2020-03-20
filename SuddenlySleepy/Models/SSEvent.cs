@@ -16,6 +16,5 @@ namespace SuddenlySleepy.Models
         public string Description { get; set; }
 
         public virtual List<SSUserSSEvent> RegisteredAttendees { get; set; }
-
     }
 }

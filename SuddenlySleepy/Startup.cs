@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SuddenlySleepy.Models;
+using SuddenlySleepy.Repositories;
 
 namespace SuddenlySleepy
 {
@@ -68,7 +69,8 @@ namespace SuddenlySleepy
             }).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
             // Inject our repositories into our controllers
-            //services.AddTransient<IMeetingRepository, EFMeetingRepository>();
+            services.AddTransient<ISSEventRepo, EFSSEventRepo>();
+            services.AddTransient<IDonationRepo, EFDonationRepo>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
