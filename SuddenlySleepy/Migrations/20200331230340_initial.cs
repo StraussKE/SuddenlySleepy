@@ -50,18 +50,6 @@ namespace SuddenlySleepy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Donations",
-                columns: table => new
-                {
-                    DonationId = table.Column<Guid>(nullable: false),
-                    DonationAmount = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Donations", x => x.DonationId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SSEvents",
                 columns: table => new
                 {
@@ -208,27 +196,23 @@ namespace SuddenlySleepy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SSUserDonation",
+                name: "Donations",
                 columns: table => new
                 {
-                    SSUserId = table.Column<string>(nullable: false),
-                    DonationId = table.Column<Guid>(nullable: false)
+                    DonationId = table.Column<Guid>(nullable: false),
+                    DonationAmount = table.Column<double>(nullable: false),
+                    DonationDate = table.Column<DateTime>(nullable: false),
+                    DonorId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SSUserDonation", x => new { x.SSUserId, x.DonationId });
+                    table.PrimaryKey("PK_Donations", x => x.DonationId);
                     table.ForeignKey(
-                        name: "FK_SSUserDonation_Donations_DonationId",
-                        column: x => x.DonationId,
-                        principalTable: "Donations",
-                        principalColumn: "DonationId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SSUserDonation_AspNetUsers_SSUserId",
-                        column: x => x.SSUserId,
+                        name: "FK_Donations_AspNetUsers_DonorId",
+                        column: x => x.DonorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -295,9 +279,9 @@ namespace SuddenlySleepy.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SSUserDonation_DonationId",
-                table: "SSUserDonation",
-                column: "DonationId");
+                name: "IX_Donations_DonorId",
+                table: "Donations",
+                column: "DonorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SSUserSSEvent_SSEventId",
@@ -323,7 +307,7 @@ namespace SuddenlySleepy.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "SSUserDonation");
+                name: "Donations");
 
             migrationBuilder.DropTable(
                 name: "SSUsers");
@@ -333,9 +317,6 @@ namespace SuddenlySleepy.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Donations");
 
             migrationBuilder.DropTable(
                 name: "SSEvents");

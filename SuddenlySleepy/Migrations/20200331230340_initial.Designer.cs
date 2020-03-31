@@ -10,7 +10,7 @@ using SuddenlySleepy.Models;
 namespace SuddenlySleepy.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20200319212711_initial")]
+    [Migration("20200331230340_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,7 +176,13 @@ namespace SuddenlySleepy.Migrations
 
                     b.Property<double>("DonationAmount");
 
+                    b.Property<DateTime>("DonationDate");
+
+                    b.Property<string>("DonorId");
+
                     b.HasKey("DonationId");
+
+                    b.HasIndex("DonorId");
 
                     b.ToTable("Donations");
                 });
@@ -254,19 +260,6 @@ namespace SuddenlySleepy.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("SuddenlySleepy.Models.SSUserDonation", b =>
-                {
-                    b.Property<string>("SSUserId");
-
-                    b.Property<Guid>("DonationId");
-
-                    b.HasKey("SSUserId", "DonationId");
-
-                    b.HasIndex("DonationId");
-
-                    b.ToTable("SSUserDonation");
-                });
-
             modelBuilder.Entity("SuddenlySleepy.Models.SSUserSSEvent", b =>
                 {
                     b.Property<string>("SSUserId");
@@ -325,17 +318,11 @@ namespace SuddenlySleepy.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SuddenlySleepy.Models.SSUserDonation", b =>
+            modelBuilder.Entity("SuddenlySleepy.Models.Donation", b =>
                 {
-                    b.HasOne("SuddenlySleepy.Models.Donation", "Donation")
-                        .WithMany("Donors")
-                        .HasForeignKey("DonationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SuddenlySleepy.Models.SSUser", "SSUser")
+                    b.HasOne("SuddenlySleepy.Models.SSUser", "Donor")
                         .WithMany("DonationsMade")
-                        .HasForeignKey("SSUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DonorId");
                 });
 
             modelBuilder.Entity("SuddenlySleepy.Models.SSUserSSEvent", b =>

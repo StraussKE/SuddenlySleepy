@@ -9,7 +9,7 @@ namespace SuddenlySleepy.Models
     {
         public Guid DonationId {get;set;}
         public double DonationAmount { get; set; }
-
-        public virtual List<SSUserDonation> Donors { get; set; }
+        public DateTime DonationDate { get; set; }
+        public virtual SSUser Donor { get; set; }
     }
 }

@@ -10,12 +10,12 @@ namespace SuddenlySleepy.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
             return View();
         }

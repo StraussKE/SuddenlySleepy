@@ -45,16 +45,13 @@
                         </li>
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
-                            </li>
                             if (User.IsInRole("_Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminUserManagement">User Management</a>
+                                    <a class="navbar-brand text-dark" asp-area="" asp-controller="Admin" asp-action="AdminUserManagement">User Management</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminRoleManagement">Role Management</a>
+                                    <a class="navbar-brand text-dark" asp-area="" asp-controller="Admin" asp-action="AdminRoleManagement">Role Management</a>
                                 </li>
                             }
                         }

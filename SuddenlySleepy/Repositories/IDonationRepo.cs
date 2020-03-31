@@ -6,7 +6,7 @@ using SuddenlySleepy.Models;
 
 namespace SuddenlySleepy.Repositories
 {
-    interface IDonationRepo
+    public interface IDonationRepo
     {
         IQueryable<Donation> Donations { get; }
 

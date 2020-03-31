@@ -6,7 +6,7 @@ using SuddenlySleepy.Models;
 
 namespace SuddenlySleepy.Repositories
 {
-    interface ISSEventRepo
+    public interface ISSEventRepo
     {
         IQueryable<SSEvent> SSEvents { get; }
 

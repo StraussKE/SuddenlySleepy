@@ -38,16 +38,10 @@ namespace SuddenlySleepy.Models
                 .HasForeignKey(se => se.SSEventId);
 
             // Many to Many bridge between SSUser and Donation
-            modelBuilder.Entity<SSUserDonation>()
-                            .HasKey(sd => new { sd.SSUserId, sd.DonationId }); // defines composite key
-            modelBuilder.Entity<SSUserDonation>()
-                .HasOne(se => se.SSUser)
-                .WithMany(s => s.DonationsMade)
-                .HasForeignKey(se => se.SSUserId);
-            modelBuilder.Entity<SSUserDonation>()
-                .HasOne(se => se.Donation)
-                .WithMany(s => s.Donors)
-                .HasForeignKey(se => se.DonationId);
+            //modelBuilder.Entity<Donation>()
+              //  .HasOne(d => d.Donor)
+               // .WithMany(u => u.DonationsMade)
+                //.IsRequired();
         }
 
         public static async Task CreateAdminAccount(IServiceProvider serviceProvider,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SuddenlySleepy.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SuddenlySleepy.Repositories
 {
@@ -15,7 +16,7 @@ namespace SuddenlySleepy.Repositories
             context = ctx;
         }
 
-        public IQueryable<Donation> Donations => context.Donations;
+        public IQueryable<Donation> Donations => context.Donations.Include(d => d.Donor);
 
 
         public void AddDonation(Donation donation)

@@ -1,0 +1,41 @@
+﻿@model SSUser
+
+@{
+    ViewData["Title"] = "MemberDonations";
+}
+
+<h1>Welcome, @Model.UserName</h1>
+
+@if (ViewBag.currentUserDonations.Count == 0)
+{
+    <h4>You have no donation history at this time.</h4>
+}
+else
+{
+    <h3>Your Donations</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Donation ID
+                </th>
+                <th>
+                    Donation Amount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Donation donation in ViewBag.currentUserDonations)
+            {
+                <tr>
+                    <td>
+                        @donation.DonationId
+                    </td>
+                    <td>
+                        @donation.DonationAmount
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

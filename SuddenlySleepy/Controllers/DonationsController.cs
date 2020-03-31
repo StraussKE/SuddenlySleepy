@@ -7,20 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SuddenlySleepy.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Identity;
+using SuddenlySleepy.Controllers;
 
 namespace SuddenlySleepy
 {
+    [Authorize] // only admin can access admin stuff
     public class DonationsController : Controller
     {
         private readonly AppIdentityDbContext _context;
+        private UserManager<SSUser> _userManager;
 
-        public DonationsController(AppIdentityDbContext context)
+        public DonationsController(AppIdentityDbContext context, UserManager<SSUser> usrMgr)
         {
             _context = context;
+            _userManager = usrMgr;
         }
 
+        public async Task<IActionResult> MemberDonations()
+        {
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                ViewBag.currentUserDonations = _context.Donations.Where(donation => donation.Donor.Id == user.Id).ToList(); // pulls current user log info from database
+            }
+            return View(user); // passes user into view
+        }
+
+        private Task<SSUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
         // GET: Donations
+        [Authorize(Roles = "_Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Donations.ToListAsync());
@@ -34,7 +51,7 @@ namespace SuddenlySleepy
                 return NotFound();
             }
 
-            var donation = await _context.Donations
+            var donation = await _context.Donations.Include(d => d.Donor)
                 .FirstOrDefaultAsync(m => m.DonationId == id);
             if (donation == null)
             {
@@ -44,6 +61,7 @@ namespace SuddenlySleepy
             return View(donation);
         }
 
+        [AllowAnonymous]
         // GET: Donations/Create
         public IActionResult Create()
         {
@@ -53,16 +71,31 @@ namespace SuddenlySleepy
         // POST: Donations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DonationId,DonationAmount")] Donation donation)
         {
+            var currentDonor = await GetCurrentUserAsync();
+            donation.Donor = currentDonor;
             if (ModelState.IsValid)
             {
                 donation.DonationId = Guid.NewGuid();
+                donation.DonationDate = DateTime.Now;
                 _context.Add(donation);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (donation.Donor == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else if (donation.Donor.UserName == "Admin")
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("MemberDonations");
+                }
             }
             return View(donation);
         }
@@ -86,6 +119,7 @@ namespace SuddenlySleepy
         }
 
         // POST: Donations/Delete/5
+        [Authorize(Roles = "_Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
