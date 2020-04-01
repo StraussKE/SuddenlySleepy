@@ -25,8 +25,8 @@
                 @Html.DisplayFor(modelItem => item.DonationAmount)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.DonationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DonationId">Delete</a>
+                <a asp-action="AdminDonatonDetails" asp-route-id="@item.DonationId">Details</a> |
+                <a asp-action="AdminDonationDelete" asp-route-id="@item.DonationId">Delete</a>
             </td>
         </tr>
 }

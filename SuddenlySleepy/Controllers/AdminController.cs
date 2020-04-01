@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SuddenlySleepy.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace SuddenlySleepy.Controllers
 {
@@ -15,12 +16,24 @@ namespace SuddenlySleepy.Controllers
     {
         private RoleManager<IdentityRole> _roleManager;
         private UserManager<SSUser> _userManager;
+        private readonly AppIdentityDbContext _context;
 
-        public AdminController(RoleManager<IdentityRole> roleMgr, UserManager<SSUser> userMgr)
+
+        public AdminController(RoleManager<IdentityRole> roleMgr, UserManager<SSUser> userMgr, AppIdentityDbContext ctx)
         {
             _roleManager = roleMgr;
             _userManager = userMgr;
+            _context = ctx;
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// User Management Section
+        /// </summary>
 
         public IActionResult AdminUserManagement()
         {
@@ -55,8 +68,6 @@ namespace SuddenlySleepy.Controllers
             }
             return View("AdminUserManagement", _userManager.Users);
         }
-
-        // I don't have time to master editing users for this project
 
         public async Task<IActionResult> AdminEditUser(string id)
         {
@@ -108,6 +119,9 @@ namespace SuddenlySleepy.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// Role Management Section
+        /// </summary>
 
         public IActionResult AdminCreateRole() => View();
 
@@ -209,6 +223,67 @@ namespace SuddenlySleepy.Controllers
             {
                 return await AdminEditRole(model.RoleId);
             }
+        }
+
+        /// <summary>
+        /// Donation Management Section
+        /// </summary>
+
+        // GET: Admin/AdminDonationRecord
+        public async Task<IActionResult> AdminDonationRecord()
+        {
+            return View(await _context.Donations.ToListAsync());
+        }
+
+        // GET: Admin/AdminDonationDetails/5
+        public async Task<IActionResult> AdminDonationDetails(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var donation = await _context.Donations.Include(d => d.Donor)
+                .FirstOrDefaultAsync(v => v.DonationId == id);
+            if (donation == null)
+            {
+                return NotFound();
+            }
+            return View(donation);
+        }
+
+        // GET: Admin/AdminDonationDelete/5
+        public async Task<IActionResult> AdminDonationDelete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var donation = await _context.Donations
+                .FirstOrDefaultAsync(m => m.DonationId == id);
+            if (donation == null)
+            {
+                return NotFound();
+            }
+
+            return View(donation);
+        }
+
+        // POST: Admin/AdminDonationDelete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminDonationDeleteConfirmed(Guid id)
+        {
+            var donation = await _context.Donations.FindAsync(id);
+            _context.Donations.Remove(donation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminDonationRecord));
+        }
+
+        private bool DonationExists(Guid id)
+        {
+            return _context.Donations.Any(e => e.DonationId == id);
         }
 
         private void AddErrorsFromResult(IdentityResult result)

@@ -1,7 +1,7 @@
 ﻿@model SSUser
 
 @{
-    ViewData["Title"] = "MemberDonations";
+    ViewData["Title"] = "DonationHistory";
 }
 
 <h1>Welcome, @Model.UserName</h1>
@@ -29,10 +29,10 @@ else
             {
                 <tr>
                     <td>
-                        @donation.DonationId
+                        @donation.DonationAmount
                     </td>
                     <td>
-                        @donation.DonationAmount
+                        @donation.DonationDate
                     </td>
                 </tr>
             }

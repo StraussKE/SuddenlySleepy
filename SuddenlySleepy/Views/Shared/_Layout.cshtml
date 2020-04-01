@@ -41,17 +41,14 @@
                             <a class="navbar-brand" asp-area="" asp-controller="SSEvents" asp-action="Index">Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="navbar-brand" asp-area="" asp-controller="Donations" asp-action="Create">Donate</a>
+                            <a class="navbar-brand" asp-area="" asp-controller="SSUserActions" asp-action="Donate">Donate</a>
                         </li>
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             if (User.IsInRole("_Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="navbar-brand text-dark" asp-area="" asp-controller="Admin" asp-action="AdminUserManagement">User Management</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="navbar-brand text-dark" asp-area="" asp-controller="Admin" asp-action="AdminRoleManagement">Role Management</a>
+                                    <a class="navbar-brand text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Administrative Tools</a>
                                 </li>
                             }
                         }

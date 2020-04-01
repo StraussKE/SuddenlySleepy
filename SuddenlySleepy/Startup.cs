@@ -37,9 +37,9 @@ namespace SuddenlySleepy
 
             services.ConfigureApplicationCookie(opts =>
             {
-                opts.LoginPath = "/Account/Login";
-                opts.LogoutPath = "/Account/Logout";
-                opts.AccessDeniedPath = "/Account/AccessDenied";
+                opts.LoginPath = "/Identity/Account/Login";
+                opts.LogoutPath = "/Identity/Account/Logout";
+                opts.AccessDeniedPath = "/Home/AccessDenied";
                 opts.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 opts.SlidingExpiration = true;
             });
@@ -47,6 +47,7 @@ namespace SuddenlySleepy
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<SSUser, IdentityRole>(opts =>
             {
                 // user information validation options
@@ -66,7 +67,7 @@ namespace SuddenlySleepy
                 opts.Lockout.AllowedForNewUsers = true;
 
 
-            }).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+            }).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultUI().AddDefaultTokenProviders();
 
             // Inject our repositories into our controllers
             services.AddTransient<ISSEventRepo, EFSSEventRepo>();

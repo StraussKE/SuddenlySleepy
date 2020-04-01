@@ -36,12 +36,6 @@ namespace SuddenlySleepy.Models
                 .HasOne(se => se.SSEvent)
                 .WithMany(e => e.RegisteredAttendees)
                 .HasForeignKey(se => se.SSEventId);
-
-            // Many to Many bridge between SSUser and Donation
-            //modelBuilder.Entity<Donation>()
-              //  .HasOne(d => d.Donor)
-               // .WithMany(u => u.DonationsMade)
-                //.IsRequired();
         }
 
         public static async Task CreateAdminAccount(IServiceProvider serviceProvider,
