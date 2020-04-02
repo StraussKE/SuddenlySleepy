@@ -232,17 +232,34 @@ namespace SuddenlySleepy.Controllers
         // GET: Admin/AdminDonationRecord
         public async Task<IActionResult> AdminDonationRecord(string orderBy = "default")
         {
+            ViewBag.orderBy = orderBy;
             if (orderBy == "amount")
             {
                 return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.DonationAmount).ToListAsync());
             }
-            else if (orderBy == "donor")
+            else if (orderBy == "revamount")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderByDescending(d => d.DonationAmount).ToListAsync());
+            }
+            else if(orderBy == "donor")
             {
                 return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.Donor.Id).ToListAsync());
+            }
+            else if (orderBy == "revdonor")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderByDescending(d => d.Donor.Id).ToListAsync());
             }
             else if (orderBy == "date")
             {
                 return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.DonationDate).ToListAsync());
+            }
+            else if (orderBy == "revdate")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderByDescending(d => d.DonationDate).ToListAsync());
+            }
+            else if (orderBy == "revdefault")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderByDescending(d => d.DonationId).ToListAsync());
             }
             else
             {

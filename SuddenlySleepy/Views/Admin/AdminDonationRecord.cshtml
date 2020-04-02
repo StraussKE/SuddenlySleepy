@@ -10,16 +10,43 @@
     <thead>
         <tr>
             <th>
-                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="default">Donation ID</a>
+                @if (ViewBag.orderBy == "default")
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="revdefault">Donation ID</a>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="default">Donation ID</a>
+                }
             </th>
             <th>
-                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="amount">Donation Amount</a>
+                @if (ViewBag.orderBy == "amount")
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="revamount">Donation Amount</a>
+                } else
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="amount">Donation Amount</a>
+                }
             </th>
             <th>
-                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="donor">Donor</a>
+                @if (ViewBag.orderBy == "donor")
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="revdonor">Donor</a>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="donor">Donor</a>
+                }
             </th>
             <th colspan="2">
-                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="date">Donation Date</a>
+                @if (ViewBag.orderBy == "date")
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="revdate">Donation Date</a>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="date">Donation Date</a>
+                }
             </th>
         </tr>
     </thead>
