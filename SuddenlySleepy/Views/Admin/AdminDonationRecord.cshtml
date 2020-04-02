@@ -1,34 +1,47 @@
-﻿@model IEnumerable<SuddenlySleepy.Models.Donation>
+﻿@model IEnumerable<Donation>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "DonationRecord";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DonationAmount)
+                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="default">Donation ID</a>
             </th>
-            <th></th>
+            <th>
+                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="amount">Donation Amount</a>
+            </th>
+            <th>
+                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="donor">Donor</a>
+            </th>
+            <th colspan="2">
+                <a asp-area="" asp-controller="Admin" asp-action="AdminDonationRecord" asp-route-orderBy="date">Donation Date</a>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (Donation donation in Model)
+        {
         <tr>
+            <td>@donation.DonationId</td>
+            <td>@donation.DonationAmount</td>
+            @if (donation.Donor == null)
+            {
+                <td>Anonymous</td>
+            }
+            else
+            {
+                <td>@donation.Donor.Id</td>
+            }
+            <td>@donation.DonationDate</td>
             <td>
-                @Html.DisplayFor(modelItem => item.DonationAmount)
-            </td>
-            <td>
-                <a asp-action="AdminDonatonDetails" asp-route-id="@item.DonationId">Details</a> |
-                <a asp-action="AdminDonationDelete" asp-route-id="@item.DonationId">Delete</a>
+                <a asp-action="AdminDonationDelete" asp-route-id="@donation.DonationId">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

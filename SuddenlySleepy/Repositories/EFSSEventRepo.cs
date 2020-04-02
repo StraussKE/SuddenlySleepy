@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SuddenlySleepy.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace SuddenlySleepy.Repositories
 {
@@ -15,7 +17,7 @@ namespace SuddenlySleepy.Repositories
             context = ctx;
         }
 
-        public IQueryable<SSEvent> SSEvents => context.SSEvents;
+        public IQueryable<SSEvent> SSEvents => context.SSEvents.Include(sse => sse.RegisteredAttendees);
 
 
         public void AddSSEvent(SSEvent ssEvent)

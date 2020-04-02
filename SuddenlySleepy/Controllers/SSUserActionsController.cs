@@ -31,14 +31,27 @@ namespace SuddenlySleepy.Controllers
         /// </summary>
         /// Returns list view
         /// <returns></returns>
-        public async Task<IActionResult> DonationHistory()
+        public async Task<IActionResult> DonationHistory(string orderBy = "default")
         {
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
-                ViewBag.currentUserDonations = _context.Donations.Where(donation => donation.Donor.Id == user.Id).ToList(); // pulls current user log info from database
+                var currentUserDonations = _context.Donations.Where(donation => donation.Donor.Id == user.Id); // pulls current user log info from database
+
+                if (orderBy == "amount")
+                {
+                    currentUserDonations = currentUserDonations.OrderBy(d => d.DonationAmount);
+                }
+                else
+                {
+                    currentUserDonations = currentUserDonations.OrderBy(d => d.DonationDate);
+                }
+                return View(currentUserDonations.ToList());
             }
-            return View(user); // passes user into view
+            else
+            {
+                return View();
+            }
         }
 
         // gets current user from login cookie

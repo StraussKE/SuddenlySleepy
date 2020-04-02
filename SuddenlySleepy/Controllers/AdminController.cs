@@ -230,9 +230,24 @@ namespace SuddenlySleepy.Controllers
         /// </summary>
 
         // GET: Admin/AdminDonationRecord
-        public async Task<IActionResult> AdminDonationRecord()
+        public async Task<IActionResult> AdminDonationRecord(string orderBy = "default")
         {
-            return View(await _context.Donations.ToListAsync());
+            if (orderBy == "amount")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.DonationAmount).ToListAsync());
+            }
+            else if (orderBy == "donor")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.Donor.Id).ToListAsync());
+            }
+            else if (orderBy == "date")
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.DonationDate).ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Donations.Include(d => d.Donor).OrderBy(d => d.DonationId).ToListAsync());
+            }
         }
 
         // GET: Admin/AdminDonationDetails/5
@@ -285,6 +300,12 @@ namespace SuddenlySleepy.Controllers
         {
             return _context.Donations.Any(e => e.DonationId == id);
         }
+
+        /// <summary>
+        /// Event Management Section
+        /// </summary>
+        
+        
 
         private void AddErrorsFromResult(IdentityResult result)
         {

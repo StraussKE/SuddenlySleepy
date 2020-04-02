@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuddenlySleepy.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
+
 
 namespace SuddenlySleepy.Controllers
 {
@@ -81,6 +83,21 @@ namespace SuddenlySleepy.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDonation", new { id = donation.DonationId }, donation);
+        }
+
+        // PATCH: api/ApiDonations/5
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<Donation>> PatchLogEntry(Guid id,
+            [FromBody]JsonPatchDocument<Donation> patch)
+        {
+            Donation donation = _context.Donations.Find(id);
+            if (donation != null)
+            {
+                patch.ApplyTo(donation);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return NotFound();
         }
 
         // DELETE: api/ApiDonations/5

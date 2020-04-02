@@ -1,12 +1,12 @@
-﻿@model SSUser
+﻿@model IEnumerable<Donation>
 
 @{
-    ViewData["Title"] = "DonationHistory";
+    ViewData["Title"] = "Donation History";
 }
 
-<h1>Welcome, @Model.UserName</h1>
+<h1>Donation History</h1>
 
-@if (ViewBag.currentUserDonations.Count == 0)
+@if (Model.Count() == 0)
 {
     <h4>You have no donation history at this time.</h4>
 }
@@ -17,15 +17,15 @@ else
         <thead>
             <tr>
                 <th>
-                    Donation ID
+                    <a asp-area="" asp-controller="SSUserActions" asp-action="DonationHistory" asp-route-orderBy="amount">Donation Amount</a>
                 </th>
                 <th>
-                    Donation Amount
+                    <a  asp-area="" asp-controller="SSUserActions" asp-action="DonationHistory" asp-route-orderBy="default">Donation Date</a>
                 </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (Donation donation in ViewBag.currentUserDonations)
+            @foreach (Donation donation in Model)
             {
                 <tr>
                     <td>
