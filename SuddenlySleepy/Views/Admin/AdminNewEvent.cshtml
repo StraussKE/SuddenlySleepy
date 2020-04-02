@@ -33,11 +33,18 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="AdminNewEvent" class="btn btn-primary" />
+                <input type="submit" value="Preview" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" asp-route-save="save" />
             </div>
         </form>
     </div>
 </div>
+
+@if (ViewBag.thisEvent != null)
+{
+    <h1>If the model is valid the preview of the page will display here</h1>
+    <h4>Using Event Name as example: @ViewBag.thisEvent.EventName</h4>
+}
 
 <div>
     <a asp-action="AdminEventManager">Back to List</a>

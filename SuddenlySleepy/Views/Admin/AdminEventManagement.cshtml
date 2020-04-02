@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SuddenlySleepy.Models.SSEvent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SSEventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeetingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SSEventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                <a asp-action="AdminEditEvent" asp-route-id="@item.SSEventId">Edit Event</a> |
+                <a asp-action="EventDetails" asp-route-id="@item.SSEventId">Event Details</a> |
+                <a asp-action="AdminEventDelete" asp-route-id="@item.SSEventId">Delete Event</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -321,15 +321,150 @@ namespace SuddenlySleepy.Controllers
         /// <summary>
         /// Event Management Section
         /// </summary>
-        
-        
+
+        // GET: Admin/AdminEventManagement
+        public async Task<IActionResult> AdminEventManagement()
+        {
+            return View(await _context.SSEvents.ToListAsync());
+        }
+
+        // GET: Admin/AdminNewEvent
+        public IActionResult AdminNewEvent()
+        {
+            return View();
+        }
+
+        // POST: Admin/AdminNewEvent
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminNewEvent([Bind("SSEventId,MeetingDate,Location,SSEventName,Description")] SSEvent sSEvent, string save = "no")
+        {
+            ViewBag.thisEvent = sSEvent;
+            if (ModelState.IsValid && save == "save")
+            {
+                sSEvent.SSEventId = Guid.NewGuid();
+                _context.Add(sSEvent);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(sSEvent);
+        }
+
+        // GET: SSEvents/Details/5
+        public async Task<IActionResult> EventDetails(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sSEvent = await _context.SSEvents
+                .FirstOrDefaultAsync(m => m.SSEventId == id);
+            if (sSEvent == null)
+            {
+                return NotFound();
+            }
+
+            return View(sSEvent);
+        }
+
+
+
+
+        // GET: SSEvents/Edit/5
+        public async Task<IActionResult> AdminEditEvent(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sSEvent = await _context.SSEvents.FindAsync(id);
+            if (sSEvent == null)
+            {
+                return NotFound();
+            }
+            return View(sSEvent);
+        }
+
+        // POST: SSEvents/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminEditEvent(Guid id, [Bind("SSEventId,MeetingDate,Location,SSEventName,Description")] SSEvent sSEvent)
+        {
+            if (id != sSEvent.SSEventId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(sSEvent);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SSEventExists(sSEvent.SSEventId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(AdminEventManagement));
+            }
+            return View(sSEvent);
+        }
+
+        // GET: SSEvents/Delete/5
+        public async Task<IActionResult> AdminDeleteEvent(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sSEvent = await _context.SSEvents
+                .FirstOrDefaultAsync(m => m.SSEventId == id);
+            if (sSEvent == null)
+            {
+                return NotFound();
+            }
+
+            return View(sSEvent);
+        }
+
+        // POST: SSEvents/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminDeleteEventConfirmed(Guid id)
+        {
+            var sSEvent = await _context.SSEvents.FindAsync(id);
+            _context.SSEvents.Remove(sSEvent);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminEventManagement));
+        }
+
+        private bool SSEventExists(Guid id)
+        {
+            return _context.SSEvents.Any(e => e.SSEventId == id);
+        }
+
 
         private void AddErrorsFromResult(IdentityResult result)
-        {
-            foreach (IdentityError error in result.Errors)
             {
-                ModelState.AddModelError("", error.Description);
+                foreach (IdentityError error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
         }
-    }
 }

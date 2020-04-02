@@ -86,10 +86,6 @@ namespace SuddenlySleepy.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                else if (donation.Donor.UserName == "Admin")
-                {
-                    return RedirectToAction("Index", "Donations");
-                }
                 else
                 {
                     return RedirectToAction("DonationHistory");
