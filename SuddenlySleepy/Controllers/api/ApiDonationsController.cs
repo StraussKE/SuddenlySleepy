@@ -87,7 +87,7 @@ namespace SuddenlySleepy.Controllers
 
         // PATCH: api/ApiDonations/5
         [HttpPatch("{id}")]
-        public async Task<ActionResult<Donation>> PatchLogEntry(Guid id,
+        public async Task<ActionResult<Donation>> PatchDonation(Guid id,
             [FromBody]JsonPatchDocument<Donation> patch)
         {
             Donation donation = _context.Donations.Find(id);
