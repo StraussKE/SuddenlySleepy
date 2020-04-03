@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuddenlySleepy.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace SuddenlySleepy.Controllers
 {
+    [Authorize(Roles = "_Admin")] // only admin can access API controls
     [Route("api/[controller]")]
     [ApiController]
     public class ApiSSEventsController : ControllerBase

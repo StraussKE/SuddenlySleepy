@@ -27,15 +27,15 @@ namespace SuddenlySleepy.Models
 
             // Many to Many bridge between SSUser and SSEvent
             modelBuilder.Entity<SSUserSSEvent>()
-                .HasKey(se => new { se.SSUserId, se.SSEventId}); // defines composite key
+                .HasKey(se => new { se.sSUserId, se.sSEventId}); // defines composite key
             modelBuilder.Entity<SSUserSSEvent>()
-                .HasOne(se => se.SSUser)
+                .HasOne(se => se.sSUser)
                 .WithMany(s => s.AttendedEvents)
-                .HasForeignKey(se => se.SSUserId);
+                .HasForeignKey(se => se.sSUserId);
             modelBuilder.Entity<SSUserSSEvent>()
-                .HasOne(se => se.SSEvent)
+                .HasOne(se => se.sSEvent)
                 .WithMany(e => e.RegisteredAttendees)
-                .HasForeignKey(se => se.SSEventId);
+                .HasForeignKey(se => se.sSEventId);
         }
 
         public static async Task CreateAdminAccount(IServiceProvider serviceProvider,

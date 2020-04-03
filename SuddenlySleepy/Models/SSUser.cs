@@ -13,7 +13,6 @@ namespace SuddenlySleepy.Models
         public string LastName { get; set; }
 
         // list of Meetings that the user has attended
-        public virtual List<SSUserSSEvent> AttendedEvents { get; set; }
-        public virtual List<Donation> DonationsMade { get; set; }
+        public virtual List<SSUserSSEvent> AttendedEvents { get; set; } = new List<SSUserSSEvent>();
     }
 }

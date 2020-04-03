@@ -5,36 +5,50 @@
 
 @if (Model != null)
 {
-    <div>
-        <h4>Next Event</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.MeetingDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.MeetingDate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Location)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Location)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.SSEventName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.SSEventName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-        </dl>
-    </div>
+<div>
+    <h4>Next Event</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MeetingDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MeetingDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SSEventName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SSEventName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    <a asp-controller="SSUserActions" asp-action="RegisterForSSEvent" asp-route-eventId="@Model.SSEventId" class="btn btn-primary">Register!</a>
+
+    <!-- I really don't need this except to verify that my background code is working correctly.  However it does a good job of demonstrating this and I learned things making it work.-->
+    @if (Model.RegisteredAttendees != null && Model.RegisteredAttendees.Count != 0)
+    {
+        foreach (SSUserSSEvent u in Model.RegisteredAttendees)
+        {
+            <h5>@u.sSUser.UserName has registered to attend this event</h5>
+        }
+    }
+    else
+    {
+        <h5>No one has registered for this event yet</h5>
+    }
+</div>
 }
 else
 {

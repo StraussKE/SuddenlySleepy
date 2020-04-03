@@ -93,5 +93,44 @@ namespace SuddenlySleepy.Controllers
             }
             return View(donation);
         }
+
+        private Task<SSEvent> GetCurrentEventAsync(Guid eventId) => _context.SSEvents.Include(sse => sse.RegisteredAttendees).FirstAsync(sse => sse.SSEventId == eventId);
+
+        public async Task<IActionResult> RegisterForSSEvent(Guid eventId)
+        {
+            var currentEvent = await GetCurrentEventAsync(eventId);
+            bool duplicate = false;
+            
+
+            var currentUser = await GetCurrentUserAsync();
+            var userEventLink = new SSUserSSEvent();
+
+            
+
+            if (currentEvent.RegisteredAttendees.Count > 0)
+            {
+                foreach (SSUserSSEvent bridge in currentEvent.RegisteredAttendees)
+                {
+                    if (bridge.sSUserId == currentUser.Id)
+                    {
+                        duplicate = true;
+                    }
+                }
+            }
+            
+
+            if (!duplicate)
+            {
+                userEventLink.sSUser = currentUser;
+                userEventLink.sSEvent = currentEvent;
+
+                currentEvent.RegisteredAttendees.Add(userEventLink);
+                currentUser.AttendedEvents.Add(userEventLink);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "Home");
+                    
+        }
     }
 }

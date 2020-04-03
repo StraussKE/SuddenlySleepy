@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SuddenlySleepy.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SuddenlySleepy.Controllers
 {
@@ -20,7 +21,8 @@ namespace SuddenlySleepy.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var nextEvent = _context.SSEvents.OrderBy(e => e.MeetingDate).Where(e => e.MeetingDate > DateTime.Now).First();
+            var nextEvent = _context.SSEvents.Include(e => e.RegisteredAttendees).ThenInclude(r => r.sSUser).Where(e => e.MeetingDate > DateTime.Now).OrderBy(e => e.MeetingDate).FirstOrDefault();
+
             return View(nextEvent);
         }
 

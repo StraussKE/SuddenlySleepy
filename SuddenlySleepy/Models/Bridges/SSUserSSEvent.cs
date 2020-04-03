@@ -7,10 +7,10 @@ namespace SuddenlySleepy.Models
 {
     public class SSUserSSEvent
     {
-        public string SSUserId { get; set; }
-        public SSUser SSUser { get; set; }
+        public string sSUserId { get; set; }
+        public SSUser sSUser { get; set; }
 
-        public Guid SSEventId { get; set; }
-        public SSEvent SSEvent { get; set; }
+        public Guid sSEventId { get; set; }
+        public SSEvent sSEvent { get; set; }
     }
 }

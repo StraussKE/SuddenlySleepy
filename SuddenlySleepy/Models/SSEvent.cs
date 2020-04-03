@@ -24,6 +24,6 @@ namespace SuddenlySleepy.Models
         [MaxLength(5000, ErrorMessage = "Your description has a maximum length of 5000 characters"), MinLength(20)]
         public string Description { get; set; }
 
-        public virtual List<SSUserSSEvent> RegisteredAttendees { get; set; }
+        public List<SSUserSSEvent> RegisteredAttendees { get; set; } = new List<SSUserSSEvent>();
     }
 }
