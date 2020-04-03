@@ -1,8 +1,48 @@
-﻿@{
+﻿@model SSEvent
+@{
     ViewData["Title"] = "Home Page";
 }
 
+@if (Model != null)
+{
+    <div>
+        <h4>Next Event</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.MeetingDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.MeetingDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Location)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Location)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SSEventName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SSEventName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+    </div>
+}
+else
+{
+    <h4>There are currently no upcoming events scheduled</h4>
+}
+
 <div class="text-center">
+
     <h1 class="display-4">News</h1>
     This site is under construction and this is a filler page for the time being.
 </div>

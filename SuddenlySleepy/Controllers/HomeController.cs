@@ -10,9 +10,18 @@ namespace SuddenlySleepy.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AppIdentityDbContext _context;
+
+
+        public HomeController(AppIdentityDbContext ctx)
+        {
+            _context = ctx;
+        }
+
         public async Task<IActionResult> Index()
         {
-            return View();
+            var nextEvent = _context.SSEvents.OrderBy(e => e.MeetingDate).Where(e => e.MeetingDate > DateTime.Now).First();
+            return View(nextEvent);
         }
 
         public async Task<IActionResult> About()

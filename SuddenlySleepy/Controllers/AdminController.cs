@@ -303,7 +303,7 @@ namespace SuddenlySleepy.Controllers
         }
 
         // POST: Admin/AdminDonationDelete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("AdminDonatonDelete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AdminDonationDeleteConfirmed(Guid id)
         {
@@ -443,7 +443,7 @@ namespace SuddenlySleepy.Controllers
         }
 
         // POST: SSEvents/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("AdminDeleteEvent")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AdminDeleteEventConfirmed(Guid id)
         {
