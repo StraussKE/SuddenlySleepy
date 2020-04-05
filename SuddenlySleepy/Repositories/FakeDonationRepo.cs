@@ -10,7 +10,7 @@ namespace SuddenlySleepy.Repositories
     public class FakeDonationRepo : IDonationRepo
     {
         private List<Donation> donation = new List<Donation>();
-        public IQueryable<Donation> Donations => donation.AsQueryable().Include(d => d.Donor);
+        public IQueryable<Donation> Donations => donation.AsQueryable(); // not including donor data in this because teasing and identity are not friends
 
         public void AddDonation(Donation entry)
         {

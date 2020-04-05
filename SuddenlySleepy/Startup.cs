@@ -70,8 +70,8 @@ namespace SuddenlySleepy
             }).AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultUI().AddDefaultTokenProviders();
 
             // Inject our repositories into our controllers
-            services.AddTransient<ISSEventRepo, EFSSEventRepo>();
-            services.AddTransient<IDonationRepo, EFDonationRepo>();
+            //services.AddTransient<ISSEventRepo, EFSSEventRepo>();
+            //services.AddTransient<IDonationRepo, EFDonationRepo>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
